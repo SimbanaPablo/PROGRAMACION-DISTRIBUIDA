@@ -9,5 +9,3 @@ insert into authors (nombre) values ('Pablo Simbaña');
 insert into authors (nombre) values ('Jorge Nitales');
 insert into authors (nombre) values ('Moises Caicedo');
 insert into authors (nombre) values ('William Pacho');
-
-select * from authors;
