@@ -31,12 +31,7 @@ public class AuthorRest {
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Integer id) {
-//        var obj = authorRepository.findByIdOptional(id);
-//        if (obj.isPresent()) {
-//            return Response.ok(obj.get()).build();
-//        }else{
-//            return Response.status(Response.Status.NOT_FOUND).build();
-//        }
+
         return authorRepository.findByIdOptional(id)
                 .map(it -> {
                     it.setNombre(it.getNombre() + " - " + httpPorrt);
