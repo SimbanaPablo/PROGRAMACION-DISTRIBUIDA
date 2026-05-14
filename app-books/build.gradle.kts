@@ -28,6 +28,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql:12.5.0")
+    implementation("org.modelmapper:modelmapper:3.2.6")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_25

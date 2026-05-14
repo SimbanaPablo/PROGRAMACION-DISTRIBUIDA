@@ -1,8 +1,8 @@
 CREATE TABLE books_authors
 (
-    bookIsbn   VARCHAR(255) NOT NULL,
+    books_isbn VARCHAR(255) NOT NULL,
     authors_id INTEGER      NOT NULL,
-    CONSTRAINT pk_books_authors PRIMARY KEY (bookIsbn, authors_id)
+    CONSTRAINT pk_books_authors PRIMARY KEY (books_isbn, authors_id)
 );
 
 ALTER TABLE books_authors

@@ -3,11 +3,13 @@ package com.programacion.distribuida.books.db;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.math.BigDecimal;
 @Entity
 @Table(name = "books")
-@Getter
-@Setter
+@Getter @Setter
+@ToString
 public class Book {
     @Id
     private String isbn;
@@ -15,7 +17,7 @@ public class Book {
     @OneToOne(mappedBy = "book")
     private Inventory inventory;
     
-    private Double price;
+    private BigDecimal price;
     private String title;
     private Integer version;
 }
