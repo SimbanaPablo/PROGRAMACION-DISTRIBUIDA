@@ -1,6 +1,7 @@
 package com.programacion.distribuida.authors.servicios;
 
 import com.programacion.distribuida.authors.db.Author;
+import com.programacion.distribuida.authors.dto.AuthorDto;
 import com.programacion.distribuida.authors.repo.AuthorRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -10,7 +11,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.List;
 
-@Path("/author")
+@Path("/authors")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthorRest {
@@ -41,5 +42,18 @@ public class AuthorRest {
                 .orElse(Response.status(Response.Status.NOT_FOUND)
                 )
                 .build();
+    }
+
+    @GET
+    @Path("/find/{isbn}")
+    public List<AuthorDto> findByBook(@PathParam("isbn") String isbn) {
+        return authorRepository.findByBook(isbn)
+                .stream()
+                .map(it -> AuthorDto.builder()
+                        .id(it.getId())
+                        .name(it.getNombre())
+                        .build()
+                )
+                .toList();
     }
 }

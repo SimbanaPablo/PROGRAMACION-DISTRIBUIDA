@@ -1,4 +1,4 @@
-package com.programacion.distribuida.books.dto;
+package com.programacion.distribuida.authors.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +19,5 @@ public class BookDto {
 
     private Integer inventorySold;
     private Integer inventorySupplies;
-
     public List<AuthorDto> authors;
 }

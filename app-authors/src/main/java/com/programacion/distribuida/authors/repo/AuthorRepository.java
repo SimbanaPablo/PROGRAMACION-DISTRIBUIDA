@@ -5,8 +5,15 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped
 @Transactional
-public class AuthorRepository implements PanacheRepositoryBase<Author,Integer> {
-    
+public class AuthorRepository implements PanacheRepositoryBase<Author, Integer> {
+    public List<Author> findByBook(String isbn) {
+        return this.find(
+                        "select a from BookAuthor a where a.id.bookIsbn = ?1", isbn
+                )
+                .list();
+    }
 }

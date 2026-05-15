@@ -26,9 +26,16 @@ dependencies {
     implementation("io.quarkus:quarkus-hibernate-orm-panache")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
 
-    implementation("io.quarkus:quarkus-flyway")
-    runtimeOnly("org.flywaydb:flyway-database-postgresql:12.5.0")
+//    implementation("io.quarkus:quarkus-flyway")
+//    runtimeOnly("org.flywaydb:flyway-database-postgresql:12.5.0")
     implementation("org.modelmapper:modelmapper:3.2.6")
+
+    // -- REST client
+    implementation("io.quarkus:quarkus-rest-client-jsonb")
+    implementation("io.quarkus:quarkus-rest-client")
+
+    //-- Service discovery
+//    implementation("io.quarkus:quarkus-smallrye-stork:3.35.3")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_25
