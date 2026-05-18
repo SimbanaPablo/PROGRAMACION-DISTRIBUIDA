@@ -35,7 +35,8 @@ dependencies {
     implementation("io.quarkus:quarkus-rest-client")
 
     //-- Service discovery
-//    implementation("io.quarkus:quarkus-smallrye-stork:3.35.3")
+    implementation("io.quarkus:quarkus-smallrye-stork")
+    implementation("io.smallrye.stork:stork-service-discovery-static-list")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_25

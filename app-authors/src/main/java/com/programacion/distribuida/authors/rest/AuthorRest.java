@@ -1,4 +1,4 @@
-package com.programacion.distribuida.authors.servicios;
+package com.programacion.distribuida.authors.rest;
 
 import com.programacion.distribuida.authors.db.Author;
 import com.programacion.distribuida.authors.dto.AuthorDto;
@@ -49,6 +49,9 @@ public class AuthorRest {
     public List<AuthorDto> findByBook(@PathParam("isbn") String isbn) {
         return authorRepository.findByBook(isbn)
                 .stream()
+                .peek(it -> {
+                    it.setNombre(it.getNombre() + " - " + httpPorrt);
+                })
                 .map(it -> AuthorDto.builder()
                         .id(it.getId())
                         .name(it.getNombre())
