@@ -29,6 +29,12 @@ dependencies {
 
     implementation("io.quarkus:quarkus-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql:12.5.0")
+
+    //Service discovery
+    implementation("io.quarkus:quarkus-smallrye-stork")
+    //implementation("io.smallrye.stork:stork-service-discovery-static-list")
+    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
+
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_25

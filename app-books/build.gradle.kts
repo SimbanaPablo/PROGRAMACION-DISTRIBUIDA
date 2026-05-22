@@ -37,6 +37,7 @@ dependencies {
     //-- Service discovery
     implementation("io.quarkus:quarkus-smallrye-stork")
     implementation("io.smallrye.stork:stork-service-discovery-static-list")
+    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_25

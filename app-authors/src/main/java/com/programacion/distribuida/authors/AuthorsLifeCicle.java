@@ -1,0 +1,73 @@
+package com.programacion.distribuida.authors;
+
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
+import io.vertx.core.Vertx;
+import io.vertx.ext.consul.ConsulClient;
+import io.vertx.ext.consul.ConsulClientOptions;
+import io.vertx.ext.consul.ServiceOptions;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import java.net.InetAddress;
+
+@ApplicationScoped
+public class AuthorsLifeCicle {
+
+    @Inject
+    @ConfigProperty(name = "consul.host", defaultValue = "127.0.0.1")
+    String consultHost;
+
+    @Inject
+    @ConfigProperty(name = "consul.port", defaultValue = "8500")
+    Integer consultPort;
+
+    @Inject
+    @ConfigProperty(name = "quarkus.http.port", defaultValue = "8070")
+    Integer appPort;
+
+    String serviceId;
+
+    public void init(@Observes StartupEvent event, Vertx vertex) {
+        System.out.println("authors-lifecycle: init");
+        try {
+            ConsulClientOptions option = new ConsulClientOptions()
+                    .setHost(consultHost)
+                    .setPort(consultPort);
+
+            ConsulClient client = ConsulClient.create(vertex, option);
+
+            String ipAddress = InetAddress.getLocalHost().getHostAddress();
+            serviceId = "app-authors-%s:%d".formatted(appPort, appPort);
+
+            ServiceOptions serviceOptions = new ServiceOptions()
+                    .setName("app-authors")
+                    .setId(serviceId)
+                    .setAddress(ipAddress)
+                    .setPort(appPort);
+            client.registerService(serviceOptions)
+                    .onSuccess(it -> System.out.println("authors-lifecycle: Author Service registred in Consul with ID:  " + serviceId))
+                    .onFailure(it -> {
+                        System.out.println("Failed to register Authors Service in Consul :  " + it.getMessage());
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void destroy(@Observes ShutdownEvent event, Vertx vertex) {
+        System.out.println("authors-lifecycle: destroy");
+        ConsulClientOptions option = new ConsulClientOptions()
+                .setHost(consultHost)
+                .setPort(consultPort);
+        ConsulClient client = ConsulClient.create(vertex, option);
+
+        client.deregisterService(serviceId)
+                .onSuccess(it -> System.out.println("Authors service deregistered from consul ID: " + serviceId))
+                .onFailure(it -> {
+                    System.out.println("Failed to register Authors service from consul: " + it.getMessage());
+                });
+    }
+}
