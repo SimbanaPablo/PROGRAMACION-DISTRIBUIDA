@@ -10,6 +10,11 @@ version = "unspecified"
 repositories {
     mavenCentral()
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
 val quarkusVersion = "3.35.2"
 
 dependencies {
@@ -36,13 +41,11 @@ dependencies {
 
     //-- Service discovery
     implementation("io.quarkus:quarkus-smallrye-stork")
-    implementation("io.smallrye.stork:stork-service-discovery-static-list")
+//    implementation("io.smallrye.stork:stork-service-discovery-static-list") registro manual
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
+    implementation("io.smallrye.stork:stork-service-discovery-consul") //Dinamica
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-}
+
 
 tasks.test {
     useJUnitPlatform()

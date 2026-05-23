@@ -12,7 +12,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RegisterRestClient(configKey = "AuthorRestClient")//(baseUri = "http://127.0.0.1:8070")
-@RegisterRestClient(baseUri = "stork://authors-api")
+@RegisterRestClient(baseUri = "stork://authors-api") // la interfaz busca un servicio llamado authors-api
 public interface AuthorRestClient {
     @GET
     @Path("/find/{isbn}")

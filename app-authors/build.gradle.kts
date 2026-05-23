@@ -12,6 +12,11 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
 val quarkusVersion = "3.35.2"
 dependencies {
     implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusVersion}"))
@@ -32,14 +37,10 @@ dependencies {
 
     //Service discovery
     implementation("io.quarkus:quarkus-smallrye-stork")
-    //implementation("io.smallrye.stork:stork-service-discovery-static-list")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
 
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-}
+
 tasks.test {
     useJUnitPlatform()
 }
