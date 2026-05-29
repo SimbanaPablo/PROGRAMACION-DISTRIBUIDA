@@ -6,6 +6,8 @@ import lombok.*;
 @Setter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthorDto {
     private Integer id;
     private String name;

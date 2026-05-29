@@ -12,7 +12,7 @@ import java.util.List;
 public class AuthorRepository implements PanacheRepositoryBase<Author, Integer> {
     public List<Author> findByBook(String isbn) {
         return this.find(
-                        "select a from BookAuthor a where a.id.bookIsbn = ?1", isbn
+                        "select ba.author from BookAuthor ba where ba.id.bookIsbn = ?1", isbn
                 )
                 .list();
     }
