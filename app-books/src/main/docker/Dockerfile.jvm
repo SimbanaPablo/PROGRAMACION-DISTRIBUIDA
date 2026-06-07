@@ -1,0 +1,18 @@
+## Crear imagen de la aplicacion
+## docker build -f src/main/docker/Dockerfile.jvm -t app-books .
+## docker build -f src/main/docker/Dockerfile.jvm -t pablofernandosimbana/app-books .
+## docker login
+## docker push pablofernandosimbana/app-books
+FROM eclipse-temurin:25.0.3_9-jre-alpine
+
+ENV LANGUAGE='en_US:en'
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY build/quarkus-app/lib ./lib
+COPY build/quarkus-app/quarkus ./quarkus
+COPY build/quarkus-app/app ./app
+COPY build/quarkus-app/quarkus-run.jar app.jar
+
+CMD ["java","-jar","app.jar"]
