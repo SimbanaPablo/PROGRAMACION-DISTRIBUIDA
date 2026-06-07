@@ -4,7 +4,7 @@ import axios from "axios";
 
 interface Author {
     id: number;
-    nombre: string;
+    name: string;
     version: number;
 }
 
@@ -12,7 +12,7 @@ interface Book {
     isbn: string;
     price: number;
     title: string;
-    author: Array<Author>;
+    authors: Array<Author>;
     version: number;
 }
 
@@ -59,7 +59,7 @@ function App() {
                 {
                     authors.map(author => (
                         <p key={author.id}>
-                            {author.id} - {author.nombre} - {author.version}
+                            {author.id} - {author.name} - {author.version}
                         </p>
                     ))
                 }
@@ -77,11 +77,19 @@ function App() {
                 </button>
                 <br/>
                 {
-                    books.map(author => (
-                        <p key={author.isbn}>
-                            {author.isbn} - {author.title} - {author.price} - {author.version}
-                        </p>
-                    ))
+                    books.map(book =>
+                        <ul key={book.isbn}>
+                            <li>{book.isbn} - {book.title} - ${book.price} - {book.version}</li>
+                            {
+                                book.authors.map(author =>
+                                    <span>
+                                        {author.name}
+                                        <br/>
+                                    </span>
+                                )
+                            }
+                        </ul>
+                    )
                 }
             </section>
         </>

@@ -35,7 +35,7 @@ public class AuthorRest {
 
         return authorRepository.findByIdOptional(id)
                 .map(it -> {
-                    it.setNombre(it.getNombre() + " - " + httpPorrt);
+                    it.setName(it.getName() + " - " + httpPorrt);
                     return it;
                 })
                 .map(Response::ok)
@@ -50,11 +50,11 @@ public class AuthorRest {
         return authorRepository.findByBook(isbn)
                 .stream()
                 .peek(it -> {
-                    it.setNombre(it.getNombre() + " - " + httpPorrt);
+                    it.setName(it.getName() + " - " + httpPorrt);
                 })
                 .map(it -> AuthorDto.builder()
                         .id(it.getId())
-                        .name(it.getNombre())
+                        .name(it.getName())
                         .build()
                 )
                 .toList();

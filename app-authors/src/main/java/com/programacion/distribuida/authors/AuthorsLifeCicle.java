@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.net.InetAddress;
+import java.util.List;
 
 @ApplicationScoped
 public class AuthorsLifeCicle {
@@ -49,12 +50,20 @@ public class AuthorsLifeCicle {
                     .setInterval("10s")
                     .setDeregisterAfter("10s");
 
+            var tags = List.of(
+                    "traefik.enable=true",
+                    "traefik.http.routers.router-app-authors.rule=PathPrefix(`/app-authors`)",
+                    "traefik.http.routers.router-app-authors.middlewares=middleware-authors",
+                    "traefik.http.middlewares.middleware-authors.stripprefix.prefixes=/app-authors"
+            );
+
             ServiceOptions serviceOptions = new ServiceOptions()
                     .setName("app-authors")
                     .setId(serviceId)
                     .setAddress(ipAddress)
                     .setPort(appPort)
-                    .setCheckOptions(checkOptions);
+                    .setCheckOptions(checkOptions)
+                    .setTags(tags);
 
             client.registerService(serviceOptions)
                     .onSuccess(it -> System.out.println("authors-lifecycle: Author Service registred in Consul with ID:  " + serviceId))
