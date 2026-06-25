@@ -44,6 +44,9 @@ dependencies {
 //    implementation("io.smallrye.stork:stork-service-discovery-static-list") registro manual
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
     implementation("io.smallrye.stork:stork-service-discovery-consul") //Dinamica
+
+    // Telemetria
+    implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
 }
 
 

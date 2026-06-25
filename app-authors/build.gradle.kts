@@ -39,6 +39,9 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-stork")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
 
+    // Telemetria
+    implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
+
 }
 
 tasks.test {

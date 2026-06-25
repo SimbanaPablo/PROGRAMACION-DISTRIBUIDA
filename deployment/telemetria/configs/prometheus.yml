@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: authors-app
+    scrape_interval: 18s
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: [ 'authors:8080' ]
+
+  - job_name: books-app
+    scrape_interval: 18s
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: [ 'books:8080' ]

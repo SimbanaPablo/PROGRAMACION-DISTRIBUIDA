@@ -1,0 +1,54 @@
+name: telemetria
+services:
+  db-server:
+    image: postgres:17.7-alpine3.23
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: books-db
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+    ports:
+      - 54321:5432
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./configs:/etc/prometheus
+    ports:
+      - 9090:9090
+
+  authors:
+    build:
+      context: ../../app-authors
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: authors-app
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://db-server:5432/books-db
+      QUARKUS_DATASOURCE_USERNAME: postgres
+      QUARKUS_DATASOURCE_PASSWORD: postgres
+      QUARKUS_HTTP_PORT: 8080
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+  books:
+    build:
+      context: ../../app-books
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: books-app
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://db-server:5432/books-db
+      QUARKUS_DATASOURCE_USERNAME: postgres
+      QUARKUS_DATASOURCE_PASSWORD: postgres
+      QUARKUS_HTTP_PORT: 8080
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+volumes:
+  postgres_data:
