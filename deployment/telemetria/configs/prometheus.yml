@@ -14,3 +14,15 @@ scrape_configs:
     metrics_path: /q/metrics
     static_configs:
       - targets: [ 'books:8080' ]
+
+  - job_name: proxy
+    scrape_interval: 18s
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ 'proxy:8082' ]
+
+  - job_name: postgrest
+    scrape_interval: 18s
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ 'postgresql-exporter:9187' ]

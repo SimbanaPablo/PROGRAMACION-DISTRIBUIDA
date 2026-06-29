@@ -15,8 +15,8 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./configs:/etc/prometheus
-    ports:
-      - 9090:9090
+#    ports:
+#      - 9090:9090
 
   authors:
     build:
@@ -30,10 +30,10 @@ services:
       QUARKUS_HTTP_PORT: 8080
       CONSUL_HOST: consul
       CONSUL_PORT: 8500
-    ports:
-      - 8080:8080
-    expose:
-      - 8080
+#    ports:
+#      - 8070:8080
+#    expose:
+#      - 8080
   books:
     build:
       context: ../../app-books
@@ -46,9 +46,54 @@ services:
       QUARKUS_HTTP_PORT: 8080
       CONSUL_HOST: consul
       CONSUL_PORT: 8500
+#    ports:
+#      - 8060:8080
+#    expose:
+#      - 8080
+
+  consul:
+    image: consul:1.15.4
+    command: |
+      agent -dev
+      -ui
+      -bind 0.0.0.0
+      -client 0.0.0.0
     ports:
-      - 8080:8080
-    expose:
-      - 8080
+      - 8500:8500
+
+  graphana:
+#    image: grafana/grafana-oss:latest
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+
+  proxy:
+    #    image: traefik:v3.1
+    image: traefik:3.7.5
+    command: |
+      --api.insecure=true
+      --api.dashboard=true
+      --entryPoints.http.address=":80"
+      --entryPoints.traefik.address=":8080"
+      --entryPoints.metrics.address=":8082"
+      --providers.consulCatalog
+      --providers.consulCatalog.endpoint.address=consul:8500
+      --providers.consulCatalog.exposedByDefault=false
+      --providers.consulCatalog.refreshInterval=5s
+      --metrics.prometheus.entryPoint=metrics
+    ports:
+      - 8888:8080
+      - 8080:80
+      - 8082:8082
+
+  postgresql-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    environment:
+      DATA_SOURCE_URI: "db-server:5432/books-db?sslmode=disable"
+      DATA_SOURCE_USER: postgres
+      DATA_SOURCE_PASS: postgres
+    ports:
+      - 9187:9187
+
 volumes:
   postgres_data:
