@@ -51,6 +51,26 @@ services:
 #    expose:
 #      - 8080
 
+  customers:
+    build:
+      context: ../../app-customers
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: customer-app
+    environment:
+      SERVER_PORT: 8080
+      SPRING_CLOUD_CONSUL_HOST: consul
+      SPRING_CLOUD_CONSUL_PORT: 8500
+  #    ports:
+  #      - 8090:8090
+
+  web-app:
+    build:
+      context: ../../web-app
+      dockerfile: Dockerfile
+    container_name: web-app
+    ports:
+      - 8081:80
+
   consul:
     image: consul:1.15.4
     command: |
@@ -82,12 +102,12 @@ services:
       --providers.consulCatalog.refreshInterval=5s
       --metrics.prometheus.entryPoint=metrics
     ports:
-      - 8888:8080
+#      - 8888:8080
       - 8080:80
       - 8082:8082
 
   postgresql-exporter:
-    image: prometheuscommunity/postgres-exporter:v0.15.0
+    image: prometheuscommunity/postgres-exporter
     environment:
       DATA_SOURCE_URI: "db-server:5432/books-db?sslmode=disable"
       DATA_SOURCE_USER: postgres
